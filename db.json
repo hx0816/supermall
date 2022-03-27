@@ -1,0 +1,40 @@
+{
+  "posts": [
+    {
+      "name": "yy",
+      "age": 24,
+      "id": 4
+    },
+    {
+      "name": "zhn",
+      "age": 20,
+      "id": 5
+    },
+    {
+      "name": "zhn",
+      "age": 20,
+      "id": 6
+    },
+    {
+      "id": 8
+    },
+    {
+      "name": "zhn",
+      "age": "20",
+      "id": 9
+    },
+    {
+      "name": "zhn",
+      "age": "20",
+      "id": 10
+    },
+    {
+      "http://localhost": "0.0",
+      "id": 11
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}
