@@ -4,20 +4,20 @@
       <template #center>购物街</template>
     </nav-bar>
     <swiper :image="image" :speed="2000"></swiper>
-    <home-recommend :recommend="recommend"></home-recommend>
+    <recommend-view :recommend="recommend"></recommend-view>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/common/navbar/NavBar";
 import Swiper from "@/components/common/swiper/Swiper";
-import HomeRecommend from "./childComps/homeRecommend/HomeRecommend";
+import RecommendView from './childComps/RecommendView'
 import { getHomeMultiData, getHomeImage } from "@/api/home";
 export default {
   components: {
     NavBar,
     Swiper,
-    HomeRecommend
+    RecommendView
   },
   data() {
     return {
