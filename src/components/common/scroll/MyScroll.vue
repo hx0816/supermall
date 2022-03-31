@@ -21,10 +21,20 @@ export default {
             this.scroll.scrollTo(x,y,time)
         }
     },
+    props:{
+        probeType:{
+            type:Number,
+            default:1
+        }
+    },
     mounted(){
         setTimeout(()=>{
             this.scroll = new BScroll(this.$refs.wrapper,{
                 click:true,
+                probeType:this.probeType
+            })
+            this.scroll.on('scroll',options=>{
+                this.$emit('scroll',options.y)
             })
         },20)
 
