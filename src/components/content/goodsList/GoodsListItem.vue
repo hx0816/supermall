@@ -1,11 +1,15 @@
 <template>
   <div class="goods-list-item">
-    <img :src="goodsItem.show.img" />
-    <p class="goods-list-item-title">{{goodsItem.title}}</p>
-    <div>
-      <span class="goods-list-item-price">{{goodsItem.price}}</span>
+    <div class="goods-list-item-image">
+      <a :href="goodsItem.link">
+        <img :src="goodsItem.show.img" />
+      </a>
+    </div>
+    <div class="goods-list-item-text">
+      <p>{{goodsItem.title}}</p>
+      <span class="price">{{goodsItem.price}}</span>
       <span class="iconfont icon-shoucang"></span>
-      <span class="goods-list-item-collect">{{goodsItem.cfav}}</span>
+      <span>{{goodsItem.cfav}}</span>
     </div>
   </div>
 </template>
@@ -25,25 +29,29 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '@/assets/css/icon/iconfont.css';
+@import "@/assets/css/icon/iconfont.css";
 .goods-list-item {
-  text-align: center;
   width: 45%;
-  img {
-    width: 100%;
+  text-align: center;
+  &-image{
+      img{
+          width: 100%;
+      }
   }
-  &-price {
-    color: red;
-  }
-  &-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 5px;
-  }
-  .icon-shoucang{
-      color: #888888;
-      margin-left: 5px;
+  &-text{
+      p{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          margin: 5px;
+      }
+      .price{
+          color: red;
+      }
+      .icon-shoucang{
+          margin-left: 5px;
+          color: #888888;
+      }
   }
 }
 </style>

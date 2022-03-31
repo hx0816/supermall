@@ -6,8 +6,9 @@
     <swiper :image="image" :speed="2000"></swiper>
     <recommend-view :recommend="recommend"></recommend-view>
     <feature-view></feature-view>
-    <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
-    <good-list :goods="showGoods"></good-list>
+    <tab-control class="tab-control" 
+    :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+    <goods-list :goods="goodsType" />
     <ul>
       <li>列表</li>
       <li>列表</li>
@@ -117,7 +118,7 @@
 import NavBar from "@/components/common/navbar/NavBar";
 import Swiper from "@/components/common/swiper/Swiper";
 import TabControl from "@/components/content/tabControl/TabControl";
-import GoodList from "@/components/content/goodsList/GoodsList";
+import GoodsList from "@/components/content/goodslist/GoodsList";
 
 import RecommendView from "./childComps/RecommendView";
 import FeatureView from "./childComps/FeatureView";
@@ -131,13 +132,11 @@ export default {
     RecommendView,
     FeatureView,
     TabControl,
-    GoodList
+    GoodsList
   },
   computed: {
-    showGoods: {
-      get() {
-        return this.goods[this.showType].list;
-      }
+    goodsType(){
+      return this.goods[this.showType].list
     }
   },
   data() {
@@ -149,22 +148,22 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      showType: "pop"
+      showType:'pop'
     };
   },
 
   methods: {
     // 事件监听相关
-    tabClick(index) {
-      switch (index) {
+    tabClick(index){
+      switch(index){
         case 0:
-          this.showType = "pop";
-          break;
+          this.showType = 'pop'
+          break
         case 1:
-          this.showType = "new";
-          break;
+          this.showType = 'new'
+          break
         case 2:
-          this.showType = "sell";
+          this.showType = 'sell'
       }
     },
 
@@ -180,6 +179,7 @@ export default {
       this.goods[type].page++;
     }
   },
+
   created() {
     this.getHomeMultiData();
     this.getHomeGoods("pop");
