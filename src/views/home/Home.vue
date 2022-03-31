@@ -3,13 +3,14 @@
     <nav-bar class="home-nav">
       <template #center>购物街</template>
     </nav-bar>
-    <my-scroll class="content">
+    <my-scroll class="content" ref="scroll">
       <swiper :image="image" :speed="2000"></swiper>
       <recommend-view :recommend="recommend"></recommend-view>
       <feature-view></feature-view>
       <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
       <goods-list :goods="goodsType" />
     </my-scroll>
+    <back-top @click.native="backClick"></back-top>
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import Swiper from "@/components/common/swiper/Swiper";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goodslist/GoodsList";
 import MyScroll from "@/components/common/scroll/MyScroll";
+import BackTop from '@/components/content/backTop/BackTop'
 
 import RecommendView from "./childComps/RecommendView";
 import FeatureView from "./childComps/FeatureView";
@@ -33,7 +35,8 @@ export default {
     FeatureView,
     TabControl,
     GoodsList,
-    MyScroll
+    MyScroll,
+    BackTop
   },
   computed: {
     goodsType() {
@@ -66,6 +69,9 @@ export default {
         case 2:
           this.showType = "sell";
       }
+    },
+    backClick(){
+      this.$refs.scroll.scrollTo(0,0)
     },
 
     // 请求数据相关

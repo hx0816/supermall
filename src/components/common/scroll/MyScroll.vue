@@ -16,6 +16,11 @@ export default {
             scroll:null
         }
     },
+    methods:{
+        scrollTo(x,y,time=500){
+            this.scroll.scrollTo(x,y,time)
+        }
+    },
     mounted(){
         setTimeout(()=>{
             this.scroll = new BScroll(this.$refs.wrapper,{
