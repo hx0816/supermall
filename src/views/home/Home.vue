@@ -3,7 +3,7 @@
     <nav-bar class="home-nav">
       <template #center>购物街</template>
     </nav-bar>
-    <my-scroll class="content" :probeType="3" ref="scroll" @scroll="scroll">
+    <my-scroll class="content" :probeType="3" ref="scroll" @scroll="scroll" :pullUpLoad="true" @sole="sole">
       <swiper :image="image" :speed="2000"></swiper>
       <recommend-view :recommend="recommend"></recommend-view>
       <feature-view></feature-view>
@@ -77,6 +77,11 @@ export default {
     scroll(y) {
       this.isShowBackTop = Math.abs(y) > 1000 
     },
+    sole(){
+      this.getHomeGoods(this.showType)
+      this.$refs.scroll.refresh()
+      console.log('触底')
+    },
 
     // 请求数据相关
     async getHomeMultiData() {
@@ -88,6 +93,7 @@ export default {
       const res = await getHomeGoods(type, this.goods[type].page + 1);
       this.goods[type].list.push(...res.data.list);
       this.goods[type].page++;
+      this.$refs.scroll.finishPullUp()
     }
   },
 
