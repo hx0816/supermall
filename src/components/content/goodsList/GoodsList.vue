@@ -27,5 +27,6 @@ export default {
 .goods-list{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
 }
 </style>
