@@ -3,114 +3,13 @@
     <nav-bar class="home-nav">
       <template #center>购物街</template>
     </nav-bar>
-    <swiper :image="image" :speed="2000"></swiper>
-    <recommend-view :recommend="recommend"></recommend-view>
-    <feature-view></feature-view>
-    <tab-control class="tab-control" 
-    :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
-    <goods-list :goods="goodsType" />
-    <ul>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-    </ul>
+    <my-scroll class="content">
+      <swiper :image="image" :speed="2000"></swiper>
+      <recommend-view :recommend="recommend"></recommend-view>
+      <feature-view></feature-view>
+      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+      <goods-list :goods="goodsType" />
+    </my-scroll>
   </div>
 </template>
 
@@ -119,6 +18,7 @@ import NavBar from "@/components/common/navbar/NavBar";
 import Swiper from "@/components/common/swiper/Swiper";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goodslist/GoodsList";
+import MyScroll from "@/components/common/scroll/MyScroll";
 
 import RecommendView from "./childComps/RecommendView";
 import FeatureView from "./childComps/FeatureView";
@@ -132,11 +32,12 @@ export default {
     RecommendView,
     FeatureView,
     TabControl,
-    GoodsList
+    GoodsList,
+    MyScroll
   },
   computed: {
-    goodsType(){
-      return this.goods[this.showType].list
+    goodsType() {
+      return this.goods[this.showType].list;
     }
   },
   data() {
@@ -148,22 +49,22 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      showType:'pop'
+      showType: "pop"
     };
   },
 
   methods: {
     // 事件监听相关
-    tabClick(index){
-      switch(index){
+    tabClick(index) {
+      switch (index) {
         case 0:
-          this.showType = 'pop'
-          break
+          this.showType = "pop";
+          break;
         case 1:
-          this.showType = 'new'
-          break
+          this.showType = "new";
+          break;
         case 2:
-          this.showType = 'sell'
+          this.showType = "sell";
       }
     },
 
@@ -191,13 +92,21 @@ export default {
 
 <style lang='scss' scoped>
 #home {
-  padding-top: 44px;
+  height: calc(100vh - 49px);
+  position: relative;
   .home-nav {
     background-color: pink;
   }
   .tab-control {
     position: sticky;
     top: 44px;
+  }
+  .content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 44px;
+    bottom: 0;
   }
 }
 </style>
