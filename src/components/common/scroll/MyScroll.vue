@@ -29,6 +29,14 @@ export default {
     pullUpLoad: {
       type: Boolean,
       default: false
+    },
+    observeDom: {
+      type: Boolean,
+      default: false
+    },
+    observeImage: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -36,14 +44,16 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: this.probeType,
         click: this.click,
-        pullUpLoad: this.pullUpLoad
+        pullUpLoad: this.pullUpLoad,
+        observeDom:this.observeDom,
+        observeImage:this.observeImage
       });
       this.scroll.on("scroll", options => {
         this.$emit("scroll", options.y);
       });
       if (this.pullUpLoad) {
         this.scroll.on("pullingUp", () => {
-          this.$emit('contentSole')
+          this.$emit("contentSole");
         });
       }
     });
@@ -55,8 +65,8 @@ export default {
     scrollTo(x, y, time = 500) {
       this.scroll.scrollTo(x, y, time);
     },
-    finishPullUp(){
-      this.scroll.finishPullUp()
+    finishPullUp() {
+      this.scroll.finishPullUp();
     }
   }
 };
