@@ -45,8 +45,8 @@ export default {
         probeType: this.probeType,
         click: this.click,
         pullUpLoad: this.pullUpLoad,
-        observeDom:this.observeDom,
-        observeImage:this.observeImage
+        observeDom: this.observeDom,
+        observeImage: this.observeImage
       });
       this.scroll.on("scroll", options => {
         this.$emit("scroll", options.y);
@@ -60,13 +60,13 @@ export default {
   },
   methods: {
     refresh() {
-      this.scroll.refresh();
+      this.scroll && this.scroll.refresh();
     },
     scrollTo(x, y, time = 500) {
-      this.scroll.scrollTo(x, y, time);
+      this.scroll && this.scroll.scrollTo(x, y, time);
     },
     finishPullUp() {
-      this.scroll.finishPullUp();
+      this.scroll && this.scroll.finishPullUp();
     }
   }
 };
