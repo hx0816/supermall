@@ -3,13 +3,14 @@
     <nav-bar class="home-nav">
       <template #center>购物街</template>
     </nav-bar>
-    <my-scroll ref="scroll" class="content">
+    <my-scroll ref="scroll" class="content" :probeType="3" @scroll="contentScroll">
       <swiper :image="image" :speed="2000"></swiper>
       <recommend-view :recommend="recommend"></recommend-view>
       <feature-view></feature-view>
       <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
       <goods-list :goods="goodsType" />
     </my-scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import Swiper from "@/components/common/swiper/Swiper";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goodslist/GoodsList";
 import MyScroll from "@/components/common/scroll/MyScroll";
+import BackTop from "@/components/content/backTop/BackTop";
 
 import RecommendView from "./childComps/RecommendView";
 import FeatureView from "./childComps/FeatureView";
@@ -33,7 +35,8 @@ export default {
     FeatureView,
     TabControl,
     GoodsList,
-    MyScroll
+    MyScroll,
+    BackTop
   },
   computed: {
     goodsType() {
@@ -68,6 +71,14 @@ export default {
           this.showType = "sell";
       }
     },
+    // 回到顶部
+    backClick() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+    // scroll滚动监听
+    contentScroll(y){
+      this.isShowBackTop = Math.abs(y) > 1000
+    },
 
     // 请求数据相关
     async getHomeMultiData() {
@@ -86,7 +97,7 @@ export default {
     this.getHomeMultiData();
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
-    // this.getHomeGoods("sell");
+    this.getHomeGoods("sell");
   },
   updated() {
     this.$nextTick(() => {

@@ -13,7 +13,8 @@ export default {
   name: "MyScroll",
   data() {
     return {
-      scroll: null
+      scroll: null,
+      y:0
     };
   },
   props: {
@@ -32,11 +33,17 @@ export default {
           probeType:this.probeType,
           click:this.click
       });
+      this.scroll.on('scroll',options=>{
+        this.$emit('scroll',options.y)
+      })
     });
   },
   methods: {
     refresh() {
       this.scroll.refresh();
+    },
+    scrollTo(x,y,time=500){
+      this.scroll.scrollTo(x,y,time)
     }
   }
 };
