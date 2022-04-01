@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       scroll: null,
-      y:0
+      y: 0
     };
   },
   props: {
@@ -22,28 +22,41 @@ export default {
       type: Number,
       default: 0
     },
-    click:{
-        type:Boolean,
-        default:true
+    click: {
+      type: Boolean,
+      default: true
+    },
+    pullUpLoad: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.wrapper, {
-          probeType:this.probeType,
-          click:this.click
+        probeType: this.probeType,
+        click: this.click,
+        pullUpLoad: this.pullUpLoad
       });
-      this.scroll.on('scroll',options=>{
-        this.$emit('scroll',options.y)
-      })
+      this.scroll.on("scroll", options => {
+        this.$emit("scroll", options.y);
+      });
+      if (this.pullUpLoad) {
+        this.scroll.on("pullingUp", () => {
+          this.$emit('contentSole')
+        });
+      }
     });
   },
   methods: {
     refresh() {
       this.scroll.refresh();
     },
-    scrollTo(x,y,time=500){
-      this.scroll.scrollTo(x,y,time)
+    scrollTo(x, y, time = 500) {
+      this.scroll.scrollTo(x, y, time);
+    },
+    finishPullUp(){
+      this.scroll.finishPullUp()
     }
   }
 };

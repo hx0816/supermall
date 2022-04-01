@@ -3,7 +3,7 @@
     <nav-bar class="home-nav">
       <template #center>购物街</template>
     </nav-bar>
-    <my-scroll ref="scroll" class="content" :probeType="3" @scroll="contentScroll">
+    <my-scroll ref="scroll" class="content" :probeType="3" @scroll="contentScroll" :pullUpLoad="true" @contentSole="contentSole">
       <swiper :image="image" :speed="2000"></swiper>
       <recommend-view :recommend="recommend"></recommend-view>
       <feature-view></feature-view>
@@ -78,6 +78,11 @@ export default {
     // scroll滚动监听
     contentScroll(y){
       this.isShowBackTop = Math.abs(y) > 1000
+    },
+    // 触底上拉加载数据
+    contentSole(){
+      this.getHomeGoods(this.showType)
+      this.$refs.scroll.finishPullUp()
     },
 
     // 请求数据相关
