@@ -2,14 +2,14 @@
   <div id="detail">
     <detail-nav></detail-nav>
     <detail-swiper :images="topImages"></detail-swiper>
-    <goods-base-info :goods="goods"></goods-base-info>
+    <base-info :goods="goods"></base-info>
   </div>
 </template>
 
 <script>
 import DetailNav from "./childComps/DetailNav";
 import DetailSwiper from "./childComps/DetailSwiper";
-import GoodsBaseInfo from "./childComps/GoodsBaseInfo";
+import BaseInfo from "./childComps/BaseInfo";
 
 import { getDetail, Goods } from "@/api/detail";
 
@@ -18,7 +18,7 @@ export default {
   components: {
     DetailNav,
     DetailSwiper,
-    GoodsBaseInfo
+    BaseInfo
   },
   data() {
     return {
