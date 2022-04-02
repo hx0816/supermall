@@ -11,6 +11,13 @@
       <span>{{goods.columns[1]}}</span>
       <span>{{goods.services[goods.services.length-1].name}}</span>
     </div>
+    <div class="base-info-after-sale">
+      <div v-for="(item,index) in goods.services" :key="index">
+        <img :src="item.icon">
+        <span>{{item.name}}</span>
+      </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,6 +69,24 @@ export default {
     justify-content: space-between;
     color: #aaaaaa;
     font-size: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  &-after-sale{
+    padding: 0 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-between;
+    align-content: center;
+    font-size: 14px;
+    line-height: 60px;
+    align-items: center;
+    img{
+      width: 14px;
+      height: 14px;
+      position: relative;
+      top: 2px;
+    }
   }
 }
 </style>

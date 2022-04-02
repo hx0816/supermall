@@ -42,7 +42,6 @@ export default {
 <style scoped lang="scss">
 .detail-shop-info {
   border-top: 10px solid #f9f9f9;
-  margin-top: 30px;
   padding: 30px 10px;
   .info-title {
     margin-bottom: 30px;
