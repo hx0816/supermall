@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "BaseInfo",
+  name: "DetailBaseInfo",
   props: {
     goods: Object,
     default() {
