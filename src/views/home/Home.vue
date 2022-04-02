@@ -3,6 +3,13 @@
     <nav-bar class="home-nav">
       <template #center>购物街</template>
     </nav-bar>
+    <tab-control
+      class="tab-control"
+      :titles="['流行','新款','精选']"
+      @tabClick="tabClick"
+      ref="tabControl2"
+      v-show="isShowTabControl"
+    ></tab-control>
     <my-scroll
       ref="scroll"
       class="content"
@@ -16,7 +23,11 @@
       <swiper :image="image" :speed="2000"></swiper>
       <recommend-view :recommend="recommend"></recommend-view>
       <feature-view></feature-view>
-      <tab-control class="tab-control" :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+      <tab-control
+        :titles="['流行','新款','精选']"
+        @tabClick="tabClick"
+        ref="tabControl1"
+      ></tab-control>
       <goods-list :goods="goodsType" />
     </my-scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
@@ -62,7 +73,9 @@ export default {
         sell: { page: 0, list: [] }
       },
       showType: "pop",
-      isShowBackTop: false
+      isShowBackTop: false,
+      tabScroll: 0,
+      isShowTabControl:false
     };
   },
 
@@ -79,6 +92,8 @@ export default {
         case 2:
           this.showType = "sell";
       }
+      this.$refs.tabControl1.showIndex = index
+      this.$refs.tabControl2.showIndex = index
     },
     // 回到顶部
     backClick() {
@@ -86,7 +101,11 @@ export default {
     },
     // scroll滚动监听
     contentScroll(y) {
+      // 监听回到顶部
       this.isShowBackTop = Math.abs(y) > 1000;
+
+      // 监听tabControl吸顶
+      this.isShowTabControl = Math.abs(y) > this.tabScroll
     },
     // 触底上拉加载数据
     contentSole() {
@@ -116,6 +135,7 @@ export default {
     this.$nextTick(() => {
       this.$refs.scroll.refresh();
       this.$refs.scroll.finishPullUp();
+      this.tabScroll = this.$refs.tabControl1.$el.offsetTop;
     });
   }
 };
@@ -128,16 +148,16 @@ export default {
   .home-nav {
     background-color: pink;
   }
-  .tab-control {
-    position: sticky;
-    top: 44px;
-  }
   .content {
     position: absolute;
     left: 0;
     right: 0;
     top: 44px;
     bottom: 0;
+  }
+  .tab-control{
+    position: relative;
+    z-index: 9;
   }
 }
 </style>

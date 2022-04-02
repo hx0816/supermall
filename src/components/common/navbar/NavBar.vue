@@ -23,11 +23,6 @@ export default {
   height: 44px;
   line-height: 44px;
   display: flex;
-  width: 100%;
-  left: 0;
-  top: 0;
-  position: fixed;
-  z-index: 9;
   .left {
     width: 60px;
   }
