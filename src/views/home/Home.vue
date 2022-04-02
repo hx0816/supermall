@@ -1,7 +1,10 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav">
-      <template #center>购物街</template>
+      <template #center>
+        <div class="home-nav-center">
+        购物街</div>
+        </template>
     </nav-bar>
     <tab-control
       class="tab-control"
@@ -162,6 +165,9 @@ export default {
   .tab-control {
     position: relative;
     z-index: 9;
+  }
+  .home-nav-center{
+    color: white;
   }
 }
 </style>
