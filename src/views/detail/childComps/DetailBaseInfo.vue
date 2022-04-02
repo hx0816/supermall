@@ -16,7 +16,6 @@
         <img :src="item.icon">
         <span>{{item.name}}</span>
       </div>
-      </div>
     </div>
   </div>
 </template>
