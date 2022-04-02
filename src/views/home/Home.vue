@@ -23,11 +23,7 @@
       <swiper :image="image" :speed="2000"></swiper>
       <recommend-view :recommend="recommend"></recommend-view>
       <feature-view></feature-view>
-      <tab-control
-        :titles="['流行','新款','精选']"
-        @tabClick="tabClick"
-        ref="tabControl1"
-      ></tab-control>
+      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick" ref="tabControl1"></tab-control>
       <goods-list :goods="goodsType" />
     </my-scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
@@ -75,7 +71,8 @@ export default {
       showType: "pop",
       isShowBackTop: false,
       tabScroll: 0,
-      isShowTabControl:false
+      isShowTabControl: false,
+      scrollY:0
     };
   },
 
@@ -92,8 +89,8 @@ export default {
         case 2:
           this.showType = "sell";
       }
-      this.$refs.tabControl1.showIndex = index
-      this.$refs.tabControl2.showIndex = index
+      this.$refs.tabControl1.showIndex = index;
+      this.$refs.tabControl2.showIndex = index;
     },
     // 回到顶部
     backClick() {
@@ -105,7 +102,7 @@ export default {
       this.isShowBackTop = Math.abs(y) > 1000;
 
       // 监听tabControl吸顶
-      this.isShowTabControl = Math.abs(y) > this.tabScroll
+      this.isShowTabControl = Math.abs(y) > this.tabScroll;
     },
     // 触底上拉加载数据
     contentSole() {
@@ -137,6 +134,13 @@ export default {
       this.$refs.scroll.finishPullUp();
       this.tabScroll = this.$refs.tabControl1.$el.offsetTop;
     });
+  },
+  activated() {
+    this.$refs.scroll.refresh();
+    this.$refs.scroll.scrollTo(0,this.scrollY,0)
+  },
+  deactivated() {
+    this.scrollY = this.$refs.scroll.getScrollY()
   }
 };
 </script>
@@ -155,7 +159,7 @@ export default {
     top: 44px;
     bottom: 0;
   }
-  .tab-control{
+  .tab-control {
     position: relative;
     z-index: 9;
   }
