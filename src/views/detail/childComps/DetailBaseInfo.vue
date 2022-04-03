@@ -1,5 +1,5 @@
 <template>
-  <div class="base-info" v-if="Object.keys(goods).length">
+  <div class="base-info" v-if="Object.keys(goods).length !==0">
     <div class="base-info-title">{{goods.title}}</div>
     <div class="base-info-price">
       <span class="new-price">{{goods.newPrice}}</span>
@@ -13,7 +13,7 @@
     </div>
     <div class="base-info-after-sale">
       <div v-for="(item,index) in goods.services" :key="index">
-        <img :src="item.icon">
+        <img :src="item.icon" />
         <span>{{item.name}}</span>
       </div>
     </div>
@@ -24,9 +24,9 @@
 export default {
   name: "DetailBaseInfo",
   props: {
-    goods: Object,
-    default() {
-      return {};
+    goods:Object,
+    default(){
+      return {}
     }
   },
 };
@@ -34,24 +34,24 @@ export default {
 
 <style scoped lang="scss">
 .base-info {
-  &-title{
+  &-title {
     padding: 15px;
     text-indent: 10px;
     line-height: 20px;
   }
-  &-price{
-    .new-price{
-      color: #FF7981;
+  &-price {
+    .new-price {
+      color: #ff7981;
       font-size: 30px;
     }
-    .old-price{
+    .old-price {
       margin-left: 5px;
       font-size: 14px;
       color: #aaaaaa;
       text-decoration: line-through;
     }
-    .discount{
-      background-color: #FF6983;
+    .discount {
+      background-color: #ff6983;
       display: inline-block;
       color: #ffffff;
       border-radius: 30px;
@@ -61,7 +61,7 @@ export default {
       top: -10px;
     }
   }
-  &-btm{
+  &-btm {
     margin-top: 25px;
     padding: 5px;
     display: flex;
@@ -71,16 +71,16 @@ export default {
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
   }
-  &-after-sale{
+  &-after-sale {
     padding: 0 5px;
     display: flex;
     flex-wrap: wrap;
-    justify-content:space-between;
+    justify-content: space-between;
     align-content: center;
     font-size: 14px;
     line-height: 60px;
     align-items: center;
-    img{
+    img {
       width: 14px;
       height: 14px;
       position: relative;

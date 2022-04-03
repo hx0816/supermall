@@ -1,7 +1,7 @@
 <template>
   <div class="goods-list-item" @click="itemClick">
     <div class="goods-list-item-image">
-        <img :src="goodsItem.show.img" />
+      <img :src="showImage" />
     </div>
     <div class="goods-list-item-text">
       <p>{{goodsItem.title}}</p>
@@ -21,11 +21,24 @@ export default {
       default() {
         return {};
       }
+    },
+  },
+  inject:{
+    click:{
+      type:Boolean,
+      default:true
     }
   },
-  methods:{
-    itemClick(){
-      this.$router.push('/detail/' + this.goodsItem.iid)
+  computed: {
+    showImage() {
+      return this.goodsItem.show ? this.goodsItem.show.img : this.goodsItem.image
+    }
+  },
+  methods: {
+    itemClick() {
+      if (this.click) {
+        this.$router.push("/detail/" + this.goodsItem.iid);
+      }
     }
   }
 };
@@ -36,25 +49,25 @@ export default {
 .goods-list-item {
   width: 45%;
   text-align: center;
-  &-image{
-      img{
-          width: 100%;
-      }
+  &-image {
+    img {
+      width: 100%;
+    }
   }
-  &-text{
-      p{
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow:ellipsis;
-          margin: 5px;
-      }
-      .price{
-          color: red;
-      }
-      .icon-shoucang{
-          margin-left: 5px;
-          color: #888888;
-      }
+  &-text {
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 5px;
+    }
+    .price {
+      color: red;
+    }
+    .icon-shoucang {
+      margin-left: 5px;
+      color: #888888;
+    }
   }
 }
 </style>

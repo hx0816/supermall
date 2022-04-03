@@ -2,18 +2,20 @@
   <div id="detail">
     <detail-nav @navClick="navClick"></detail-nav>
     <my-scroll ref="scroll" class="detail-scroll" :observeImage="true" :observeDOM="true">
-        <!-- <detail-swiper :images="topImages"></detail-swiper>
+        <detail-swiper :images="topImages"></detail-swiper>
         <detail-base-info :goods="goods"></detail-base-info>
         <detail-shop-info :shop="shop"></detail-shop-info>
         <detail-goods-info :detailInfo="detailInfo"></detail-goods-info>
-        <detail-params :params="params"></detail-params> -->
+        <detail-params :params="params"></detail-params>
         <detail-comment-info :commentInfo="commentInfo"></detail-comment-info>
+        <goods-list :goods="recommends" ></goods-list>
     </my-scroll>
   </div>
 </template>
 
 <script>
 import MyScroll from "@/components/common/scroll/MyScroll";
+import GoodsList from '@/components/content/goodslist/GoodsList'
 
 import DetailNav from "./childComps/DetailNav";
 import DetailSwiper from "./childComps/DetailSwiper";
@@ -23,7 +25,7 @@ import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParams from "./childComps/DetailParams";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
 
-import { getDetail, Goods, Shop, Params } from "@/api/detail";
+import { getDetail, Goods, Shop, Params,getRecommend } from "@/api/detail";
 
 export default {
   name: "detail",
@@ -35,7 +37,11 @@ export default {
     MyScroll,
     DetailGoodsInfo,
     DetailParams,
-    DetailCommentInfo
+    DetailCommentInfo,
+    GoodsList
+  },
+  provide:{
+    click:false,
   },
   data() {
     return {
@@ -45,7 +51,9 @@ export default {
       detailInfo: {},
       isShow: "goods",
       params:{},
-      commentInfo:{}
+      commentInfo:{},
+      goods:{},
+      recommends:[]
     };
   },
   methods: {
@@ -89,7 +97,11 @@ export default {
 
     // 6.保存评论信息
     this.commentInfo = data.rate
-  }
+
+    //7.保存推荐数据
+    const recommend = await getRecommend()
+    this.recommends = recommend.data.list
+  },
 };
 </script>
 
