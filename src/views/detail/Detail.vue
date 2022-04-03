@@ -2,15 +2,12 @@
   <div id="detail">
     <detail-nav @navClick="navClick"></detail-nav>
     <my-scroll ref="scroll" class="detail-scroll" :observeImage="true" :observeDOM="true">
-      <div v-show="isShow==='goods'">
-        <detail-swiper :images="topImages"></detail-swiper>
+        <!-- <detail-swiper :images="topImages"></detail-swiper>
         <detail-base-info :goods="goods"></detail-base-info>
         <detail-shop-info :shop="shop"></detail-shop-info>
         <detail-goods-info :detailInfo="detailInfo"></detail-goods-info>
-      </div>
-      <div v-show="isShow==='params'">
-        <detail-params :params="params"></detail-params>
-      </div>
+        <detail-params :params="params"></detail-params> -->
+        <detail-comment-info :commentInfo="commentInfo"></detail-comment-info>
     </my-scroll>
   </div>
 </template>
@@ -24,6 +21,7 @@ import DetailBaseInfo from "./childComps/DetailBaseInfo";
 import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParams from "./childComps/DetailParams";
+import DetailCommentInfo from "./childComps/DetailCommentInfo";
 
 import { getDetail, Goods, Shop, Params } from "@/api/detail";
 
@@ -36,7 +34,8 @@ export default {
     DetailShopInfo,
     MyScroll,
     DetailGoodsInfo,
-    DetailParams
+    DetailParams,
+    DetailCommentInfo
   },
   data() {
     return {
@@ -44,8 +43,9 @@ export default {
       goods: {},
       shop: {},
       detailInfo: {},
-      isShow: "params",
-      params:{}
+      isShow: "goods",
+      params:{},
+      commentInfo:{}
     };
   },
   methods: {
@@ -87,7 +87,8 @@ export default {
 
     this.params = new Params(data.itemParams.rule, data.itemParams.info);
 
-    // console.log(res)
+    // 6.保存评论信息
+    this.commentInfo = data.rate
   }
 };
 </script>
