@@ -1,65 +1,17 @@
 <template>
   <div id="detail">
     <detail-nav></detail-nav>
-    <detail-swiper :images="topImages"></detail-swiper>
-    <detail-base-info :goods="goods"></detail-base-info>
-    <detail-shop-info :shop="shop"></detail-shop-info>
-    <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li>10</li>
-      <li>11</li>
-      <li>12</li>
-      <li>13</li>
-      <li>14</li>
-      <li>15</li>
-      <li>16</li>
-      <li>17</li>
-      <li>18</li>
-      <li>19</li>
-      <li>20</li>
-      <li>21</li>
-      <li>22</li>
-      <li>23</li>
-      <li>24</li>
-      <li>25</li>
-      <li>26</li>
-      <li>27</li>
-      <li>28</li>
-      <li>29</li>
-      <li>30</li>
-      <li>31</li>
-      <li>32</li>
-      <li>33</li>
-      <li>34</li>
-      <li>35</li>
-      <li>36</li>
-      <li>37</li>
-      <li>38</li>
-      <li>39</li>
-      <li>40</li>
-      <li>41</li>
-      <li>42</li>
-      <li>43</li>
-      <li>44</li>
-      <li>45</li>
-      <li>46</li>
-      <li>47</li>
-      <li>48</li>
-      <li>49</li>
-      <li>50</li>
-    </ul>
+    <my-scroll ref='scroll' class="detail-scroll">
+      <detail-swiper :images="topImages"></detail-swiper>
+      <detail-base-info :goods="goods"></detail-base-info>
+      <detail-shop-info :shop="shop"></detail-shop-info>
+    </my-scroll>
   </div>
 </template>
 
 <script>
+import MyScroll from "@/components/common/scroll/MyScroll";
+
 import DetailNav from "./childComps/DetailNav";
 import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "./childComps/DetailBaseInfo";
@@ -73,7 +25,8 @@ export default {
     DetailNav,
     DetailSwiper,
     DetailBaseInfo,
-    DetailShopInfo
+    DetailShopInfo,
+    MyScroll
   },
   data() {
     return {
@@ -90,11 +43,28 @@ export default {
     this.topImages = data.itemInfo.topImages;
     this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services);
     this.shop = new Shop(data.shopInfo);
+  },
+  updated(){
+    this.$nextTick(()=>{
+      console.log(this.$refs.scroll)
+      this.$refs.scroll.refresh()
+    })
   }
 };
 </script>
 
 <style scoped lang='scss'>
 #detail {
+  position: relative;
+  z-index: 99;
+  background: #ffffff;
+  height: 100%;
+  .detail-scroll{
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 49px;
+  }
 }
 </style>
