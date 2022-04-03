@@ -31,3 +31,10 @@ export class Shop{
         this.score = shopInfo.score
     }
 }
+
+export class Params{
+    constructor(rule,info){
+        this.tables = rule.tables[0]
+        this.set= info.set
+    }
+}

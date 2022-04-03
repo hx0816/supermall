@@ -9,7 +9,7 @@
         <detail-goods-info :detailInfo="detailInfo"></detail-goods-info>
       </div>
       <div v-show="isShow==='params'">
-        
+        <detail-params :params="params"></detail-params>
       </div>
     </my-scroll>
   </div>
@@ -23,8 +23,9 @@ import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "./childComps/DetailBaseInfo";
 import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
+import DetailParams from "./childComps/DetailParams";
 
-import { getDetail, Goods, Shop } from "@/api/detail";
+import { getDetail, Goods, Shop, Params } from "@/api/detail";
 
 export default {
   name: "detail",
@@ -34,7 +35,8 @@ export default {
     DetailBaseInfo,
     DetailShopInfo,
     MyScroll,
-    DetailGoodsInfo
+    DetailGoodsInfo,
+    DetailParams
   },
   data() {
     return {
@@ -42,7 +44,8 @@ export default {
       goods: {},
       shop: {},
       detailInfo: {},
-      isShow: "goods"
+      isShow: "params",
+      params:{}
     };
   },
   methods: {
@@ -79,6 +82,12 @@ export default {
 
     // 4.保存商品详情信息
     this.detailInfo = data.detailInfo;
+
+    // 5.保存商品参数信息
+
+    this.params = new Params(data.itemParams.rule, data.itemParams.info);
+
+    // console.log(res)
   }
 };
 </script>
