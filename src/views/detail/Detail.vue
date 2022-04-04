@@ -17,7 +17,7 @@
       <detail-comment-info :commentInfo="commentInfo" ref="comment"></detail-comment-info>
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </my-scroll>
-    <detail-bottom-bar></detail-bottom-bar>
+    <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
@@ -38,6 +38,7 @@ import DetailBottomBar from './childComps/DetailBottomBar'
 import { getDetail, Goods, Shop, Params, getRecommend } from "@/api/detail";
 import { debounce } from "@/common/util";
 import {backTopMixin} from '@/common/mixin'
+import store from '@/store'
 
 export default {
   name: "detail",
@@ -112,6 +113,17 @@ export default {
           break
         }
       }
+    },
+
+    // 箭头点击加入购物车
+    addToCart(){
+      const product = {}
+      product.image = this.topImages[0]
+      product.title = this.goods.title
+      product.desc = this.goods.desc
+      product.price = this.goods.realPrice
+      product.iid = this.$route.params.iid
+      this.$store.dispatch('addCart',product)
     }
   },
 
