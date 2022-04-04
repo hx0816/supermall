@@ -1,7 +1,7 @@
 <template>
   <div class="goods-list-item" @click="itemClick">
     <div class="goods-list-item-image">
-      <img :src="showImage" />
+      <img :src="showImage" @load="imgLoad" />
     </div>
     <div class="goods-list-item-text">
       <p>{{goodsItem.title}}</p>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+
 export default {
   name: "GoodsListItem",
   props: {
@@ -21,17 +22,23 @@ export default {
       default() {
         return {};
       }
-    },
+    }
   },
-  inject:{
-    click:{
-      type:Boolean,
-      default:true
+  inject: {
+    click: {
+      type: Boolean,
+      default: true
+    },
+    isImgLoad: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     showImage() {
-      return this.goodsItem.show ? this.goodsItem.show.img : this.goodsItem.image
+      return this.goodsItem.show
+        ? this.goodsItem.show.img
+        : this.goodsItem.image;
     }
   },
   methods: {
@@ -39,8 +46,13 @@ export default {
       if (this.click) {
         this.$router.push("/detail/" + this.goodsItem.iid);
       }
+    },
+    imgLoad() {
+      if (this.isImgLoad) {
+        this.$bus.$emit("imgLoad");
+      }
     }
-  }
+  },
 };
 </script>
 

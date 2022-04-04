@@ -79,7 +79,7 @@ export const animate = (dom, options, callback) => {
     }, 20)
 }
 
-export const debounce = (callback, delay) => {
+export const debounce = (callback, delay=500) => {
     let timer
     return function () {
         clearTimeout(timer)

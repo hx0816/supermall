@@ -1,21 +1,21 @@
 <template>
   <div id="detail">
     <detail-nav @navClick="navClick"></detail-nav>
-    <my-scroll ref="scroll" class="detail-scroll" :observeImage="true" :observeDOM="true">
-        <detail-swiper :images="topImages"></detail-swiper>
-        <detail-base-info :goods="goods"></detail-base-info>
-        <detail-shop-info :shop="shop"></detail-shop-info>
-        <detail-goods-info :detailInfo="detailInfo"></detail-goods-info>
-        <detail-params :params="params"></detail-params>
-        <detail-comment-info :commentInfo="commentInfo"></detail-comment-info>
-        <goods-list :goods="recommends" ></goods-list>
+    <my-scroll ref="scroll" class="detail-scroll" :observeDOM="true" :observeImage="true">
+      <detail-swiper :images="topImages"></detail-swiper>
+      <detail-base-info :goods="goods"></detail-base-info>
+      <detail-shop-info :shop="shop"></detail-shop-info>
+      <detail-goods-info :detailInfo="detailInfo"></detail-goods-info>
+      <detail-params ref="params" :params="params"></detail-params>
+      <detail-comment-info :commentInfo="commentInfo" ref="comment"></detail-comment-info>
+      <goods-list :goods="recommends" ref="recommend"></goods-list>
     </my-scroll>
   </div>
 </template>
 
 <script>
 import MyScroll from "@/components/common/scroll/MyScroll";
-import GoodsList from '@/components/content/goodslist/GoodsList'
+import GoodsList from "@/components/content/goodslist/GoodsList";
 
 import DetailNav from "./childComps/DetailNav";
 import DetailSwiper from "./childComps/DetailSwiper";
@@ -25,7 +25,8 @@ import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParams from "./childComps/DetailParams";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
 
-import { getDetail, Goods, Shop, Params,getRecommend } from "@/api/detail";
+import { getDetail, Goods, Shop, Params, getRecommend } from "@/api/detail";
+import { debounce } from "@/common/util";
 
 export default {
   name: "detail",
@@ -40,8 +41,9 @@ export default {
     DetailCommentInfo,
     GoodsList
   },
-  provide:{
-    click:false,
+  provide: {
+    click: false,
+    isImgLoad: true
   },
   data() {
     return {
@@ -50,32 +52,34 @@ export default {
       shop: {},
       detailInfo: {},
       isShow: "goods",
-      params:{},
-      commentInfo:{},
-      goods:{},
-      recommends:[]
+      params: {},
+      commentInfo: {},
+      goods: {},
+      recommends: [],
+      getThemeTopYs: []
     };
   },
   methods: {
     navClick(index) {
-      switch (index) {
-        case 0:
-          this.isShow = "goods";
-          break;
-        case 1:
-          this.isShow = "params";
-          break;
-        case 2:
-          this.isShow = "comment";
-          break;
-        case 3:
-          this.isShow = "recommend";
-          break;
-      }
-    }
+      this.$refs.scroll.scrollTo(0, -this.getThemeTopYs[index]);
+    },
+    imgLoad() {
+      this.getThemeTopYs = [];
+      this.getThemeTopYs.push(0);
+      this.getThemeTopYs.push(this.$refs.params.$el.offsetTop);
+      this.getThemeTopYs.push(this.$refs.comment.$el.offsetTop);
+      this.getThemeTopYs.push(this.$refs.recommend.$el.offsetTop);
+    },
   },
 
   async created() {
+    // 监听goodsList图片加载完成
+  const debounceImgLoad = debounce(this.imgLoad)
+
+    this.$bus.$on("imgLoad", () => {
+      debounceImgLoad()
+    });
+
     const res = await getDetail(this.$route.params.iid);
     const data = res.result;
 
@@ -96,12 +100,12 @@ export default {
     this.params = new Params(data.itemParams.rule, data.itemParams.info);
 
     // 6.保存评论信息
-    this.commentInfo = data.rate
+    this.commentInfo = data.rate;
 
     //7.保存推荐数据
-    const recommend = await getRecommend()
-    this.recommends = recommend.data.list
-  },
+    const recommend = await getRecommend();
+    this.recommends = recommend.data.list;
+  }
 };
 </script>
 
