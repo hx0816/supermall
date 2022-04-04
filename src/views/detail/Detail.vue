@@ -17,6 +17,7 @@
       <detail-comment-info :commentInfo="commentInfo" ref="comment"></detail-comment-info>
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </my-scroll>
+    <detail-bottom-bar></detail-bottom-bar>
   </div>
 </template>
 
@@ -31,6 +32,7 @@ import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParams from "./childComps/DetailParams";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
+import DetailBottomBar from './childComps/DetailBottomBar'
 
 import { getDetail, Goods, Shop, Params, getRecommend } from "@/api/detail";
 import { debounce } from "@/common/util";
@@ -46,7 +48,8 @@ export default {
     DetailGoodsInfo,
     DetailParams,
     DetailCommentInfo,
-    GoodsList
+    GoodsList,
+    DetailBottomBar
   },
   provide: {
     click: false,
@@ -152,7 +155,7 @@ export default {
     top: 44px;
     left: 0;
     right: 0;
-    bottom: 49px;
+    bottom: 58px;
   }
 }
 </style>
