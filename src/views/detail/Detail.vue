@@ -1,7 +1,14 @@
 <template>
   <div id="detail">
-    <detail-nav @navClick="navClick"></detail-nav>
-    <my-scroll ref="scroll" class="detail-scroll" :observeDOM="true" :observeImage="true">
+    <detail-nav @navClick="navClick" ref="nav"></detail-nav>
+    <my-scroll
+      ref="scroll"
+      class="detail-scroll"
+      :observeDOM="true"
+      :observeImage="true"
+      :probeType="3"
+      @scroll="contentScroll"
+    >
       <detail-swiper :images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
@@ -56,28 +63,53 @@ export default {
       commentInfo: {},
       goods: {},
       recommends: [],
-      getThemeTopYs: []
+      themeTopYs: [],
+      showIndex : 0
     };
   },
   methods: {
+    // 点击主题跳转对应位置
     navClick(index) {
-      this.$refs.scroll.scrollTo(0, -this.getThemeTopYs[index]);
+      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index]);
     },
+
+    //监听goodsList图片加载完成
     imgLoad() {
-      this.getThemeTopYs = [];
-      this.getThemeTopYs.push(0);
-      this.getThemeTopYs.push(this.$refs.params.$el.offsetTop);
-      this.getThemeTopYs.push(this.$refs.comment.$el.offsetTop);
-      this.getThemeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      this.$refs.scroll.refresh()
+      this.themeTopYs = [];
+      this.themeTopYs.push(0);
+      if (this.$refs.params) {
+        this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+      }
+      if (this.$refs.comment) {
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+      }
+      if (this.$refs.recommend) {
+        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      }
     },
+
+    // 监听滚动条滚动
+    contentScroll(y) {
+      const optionsY = Math.abs(y)
+      for(var i = this.themeTopYs.length-1;i>=0;i--){
+        if(optionsY>=this.themeTopYs[i]){
+          if(i !== this.showIndex){
+            this.showIndex = i
+            this.$refs.nav.showIndex = i
+          }
+          break
+        }
+      }
+    }
   },
 
   async created() {
     // 监听goodsList图片加载完成
-  const debounceImgLoad = debounce(this.imgLoad)
+    const debounceImgLoad = debounce(this.imgLoad);
 
     this.$bus.$on("imgLoad", () => {
-      debounceImgLoad()
+      debounceImgLoad();
     });
 
     const res = await getDetail(this.$route.params.iid);
