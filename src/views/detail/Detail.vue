@@ -18,6 +18,7 @@
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </my-scroll>
     <detail-bottom-bar></detail-bottom-bar>
+    <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
   </div>
 </template>
 
@@ -36,9 +37,11 @@ import DetailBottomBar from './childComps/DetailBottomBar'
 
 import { getDetail, Goods, Shop, Params, getRecommend } from "@/api/detail";
 import { debounce } from "@/common/util";
+import {backTopMixin} from '@/common/mixin'
 
 export default {
   name: "detail",
+  mixins:[backTopMixin],
   components: {
     DetailNav,
     DetailSwiper,
@@ -67,7 +70,8 @@ export default {
       goods: {},
       recommends: [],
       themeTopYs: [],
-      showIndex : 0
+      showIndex : 0,
+      isShowBackTop:false
     };
   },
   methods: {
@@ -94,6 +98,10 @@ export default {
 
     // 监听滚动条滚动
     contentScroll(y) {
+      // backTop显示隐藏
+      this.listenShowBackTop(y)
+
+      // 主题对应滚动内容
       const optionsY = Math.abs(y)
       for(var i = this.themeTopYs.length-1;i>=0;i--){
         if(optionsY>=this.themeTopYs[i]){

@@ -39,12 +39,13 @@ import Swiper from "@/components/common/swiper/Swiper";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goodslist/GoodsList";
 import MyScroll from "@/components/common/scroll/MyScroll";
-import BackTop from "@/components/content/backTop/BackTop";
+
 
 import RecommendView from "./childComps/RecommendView";
 import FeatureView from "./childComps/FeatureView";
 
 import { getHomeMultiData, getHomeGoods } from "@/api/home";
+import {backTopMixin} from '@/common/mixin'
 
 export default {
   components: {
@@ -55,8 +56,8 @@ export default {
     TabControl,
     GoodsList,
     MyScroll,
-    BackTop
   },
+  mixins:[backTopMixin],
   computed: {
     goodsType() {
       return this.goods[this.showType].list;
@@ -95,14 +96,11 @@ export default {
       this.$refs.tabControl1.showIndex = index;
       this.$refs.tabControl2.showIndex = index;
     },
-    // 回到顶部
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
+
     // scroll滚动监听
     contentScroll(y) {
-      // 监听回到顶部
-      this.isShowBackTop = Math.abs(y) > 1000;
+      // 监听backTop显示隐藏
+      this.listenShowBackTop(y)
 
       // 监听tabControl吸顶
       this.isShowTabControl = Math.abs(y) > this.tabScroll;
