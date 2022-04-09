@@ -10,6 +10,14 @@ const store = new Vuex.Store({
     state: {
         cartList: []
     },
+    getters:{
+        cartLength(state){
+            return state.cartList.length
+        },
+        cartList(state){
+            return state.cartList
+        }
+    },
     mutations,
     actions
 })

@@ -33,16 +33,16 @@ import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParams from "./childComps/DetailParams";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
-import DetailBottomBar from './childComps/DetailBottomBar'
+import DetailBottomBar from "./childComps/DetailBottomBar";
 
 import { getDetail, Goods, Shop, Params, getRecommend } from "@/api/detail";
 import { debounce } from "@/common/util";
-import {backTopMixin} from '@/common/mixin'
-import store from '@/store'
+import { backTopMixin } from "@/common/mixin";
+import store from "@/store";
 
 export default {
   name: "detail",
-  mixins:[backTopMixin],
+  mixins: [backTopMixin],
   components: {
     DetailNav,
     DetailSwiper,
@@ -71,8 +71,8 @@ export default {
       goods: {},
       recommends: [],
       themeTopYs: [],
-      showIndex : 0,
-      isShowBackTop:false
+      showIndex: 0,
+      isShowBackTop: false
     };
   },
   methods: {
@@ -83,7 +83,9 @@ export default {
 
     //监听goodsList图片加载完成
     imgLoad() {
-      this.$refs.scroll.refresh()
+      if (this.$refs.scroll) {
+        this.$refs.scroll.refresh();
+      }
       this.themeTopYs = [];
       this.themeTopYs.push(0);
       if (this.$refs.params) {
@@ -100,30 +102,30 @@ export default {
     // 监听滚动条滚动
     contentScroll(y) {
       // backTop显示隐藏
-      this.listenShowBackTop(y)
+      this.listenShowBackTop(y);
 
       // 主题对应滚动内容
-      const optionsY = Math.abs(y)
-      for(var i = this.themeTopYs.length-1;i>=0;i--){
-        if(optionsY>=this.themeTopYs[i]){
-          if(i !== this.showIndex){
-            this.showIndex = i
-            this.$refs.nav.showIndex = i
+      const optionsY = Math.abs(y);
+      for (var i = this.themeTopYs.length - 1; i >= 0; i--) {
+        if (optionsY >= this.themeTopYs[i]) {
+          if (i !== this.showIndex) {
+            this.showIndex = i;
+            this.$refs.nav.showIndex = i;
           }
-          break
+          break;
         }
       }
     },
 
     // 箭头点击加入购物车
-    addToCart(){
-      const product = {}
-      product.image = this.topImages[0]
-      product.title = this.goods.title
-      product.desc = this.goods.desc
-      product.price = this.goods.realPrice
-      product.iid = this.$route.params.iid
-      this.$store.dispatch('addCart',product)
+    addToCart() {
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.realPrice;
+      product.iid = this.$route.params.iid;
+      this.$store.dispatch("addCart", product);
     }
   },
 
