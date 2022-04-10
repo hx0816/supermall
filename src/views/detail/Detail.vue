@@ -125,7 +125,9 @@ export default {
       product.desc = this.goods.desc;
       product.price = this.goods.realPrice;
       product.iid = this.$route.params.iid;
-      this.$store.dispatch("addCart", product);
+      this.$store.dispatch("addCart", product).then(res=>{
+        this.$toast.show(res)
+      })
     }
   },
 
