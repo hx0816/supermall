@@ -19,12 +19,14 @@
     </my-scroll>
     <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
+    <toast :message='message' :isShow="isShow"></toast>
   </div>
 </template>
 
 <script>
 import MyScroll from "@/components/common/scroll/MyScroll";
 import GoodsList from "@/components/content/goodslist/GoodsList";
+import Toast from '@/components/content/toast/Toast'
 
 import DetailNav from "./childComps/DetailNav";
 import DetailSwiper from "./childComps/DetailSwiper";
@@ -53,7 +55,8 @@ export default {
     DetailParams,
     DetailCommentInfo,
     GoodsList,
-    DetailBottomBar
+    DetailBottomBar,
+    Toast
   },
   provide: {
     click: false,
@@ -72,7 +75,9 @@ export default {
       recommends: [],
       themeTopYs: [],
       showIndex: 0,
-      isShowBackTop: false
+      isShowBackTop: false,
+      isShow:false,
+      message:''
     };
   },
   methods: {
@@ -125,7 +130,14 @@ export default {
       product.desc = this.goods.desc;
       product.price = this.goods.realPrice;
       product.iid = this.$route.params.iid;
-      this.$store.dispatch("addCart", product);
+      this.$store.dispatch("addCart", product).then(res=>{
+        this.isShow = true
+        this.message = res
+        setTimeout(()=>{
+          this.isShow  = false
+          this.message = ''
+        },1500)
+      })
     }
   },
 
