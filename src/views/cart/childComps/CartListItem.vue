@@ -1,10 +1,8 @@
 <template>
   <div class="cart-list-item">
-    <div class="item-tick">
-      <img src="~@/assets/img/cart/tick.svg" class="active" />
-    </div>
+    <check-button class="item-tick" :checked="listItem.checked" @click.native="checkClick"></check-button>
     <div class="item-image">
-      <img :src="listItem.image" class="active" />
+      <img :src="listItem.image"/>
     </div>
     <div class="item-text">
       <div class="item-text-title">{{listItem.title}}</div>
@@ -18,6 +16,8 @@
 </template>
 
 <script>
+import CheckButton from "@/components/content/checkButton/CheckButton";
+
 export default {
   name: "CartListItem",
   props: {
@@ -27,6 +27,15 @@ export default {
         return {};
       }
     }
+  },
+  components: {
+    CheckButton
+  },
+  methods:{
+      checkClick(){
+          this.listItem.checked  = !this.listItem.checked
+          console.log(this.$store.state)
+      }
   }
 };
 </script>
@@ -40,13 +49,6 @@ export default {
   .item {
     &-tick {
       margin: 0 5px;
-      img {
-        border-radius: 50%;
-        border: 2px solid #dddddd;
-      }
-      .active {
-        background-color: #ff8e9b;
-      }
     }
     &-image {
       img {
