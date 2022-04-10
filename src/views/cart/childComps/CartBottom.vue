@@ -1,7 +1,7 @@
 <template>
   <div class="cart-bottom">
     <div class="all">
-      <check-button class="check-button"></check-button>
+      <check-button class="check-button" :class="{isCheckAll}" @click.native="checkClick"></check-button>
       <span>全选</span>
     </div>
     <div class="totalPrice">合计：￥{{totalPrice}}</div>
@@ -30,9 +30,30 @@ export default {
       });
     },
     totalPrice() {
-      return this.checkList.reduce((prev, next) => {
+      return this.checkList
+        .reduce((prev, next) => {
           return prev + next.price * next.count;
-        }, 0).toFixed(2);
+        }, 0)
+        .toFixed(2);
+    },
+    isCheckAll() {
+      if ((this.cartList.length === 0)) return false;
+      return this.cartList.every(item => {
+        return item.checked;
+      });
+    }
+  },
+  methods: {
+    checkClick() {
+      if (this.isCheckAll) {
+        this.cartList.forEach(item => {
+          item.checked = false;
+        });
+      } else {
+        this.cartList.forEach(item => {
+          item.checked = true;
+        });
+      }
     }
   }
 };
@@ -58,6 +79,9 @@ export default {
     box-sizing: border-box;
     width: 20px;
     height: 20px;
+  }
+  .isCheckAll {
+    background-color: #ff8e9b;
   }
   .all {
     display: flex;
