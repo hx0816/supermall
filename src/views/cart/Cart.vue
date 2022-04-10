@@ -8,6 +8,7 @@
     <my-scroll class="content" :observeDom="true" :observeImage="true">
       <cart-list :cartList="cartList"></cart-list>
     </my-scroll>
+    <cart-bottom></cart-bottom>
   </div>
 </template>
 
@@ -18,13 +19,15 @@ import NavBar from "@/components/common/navbar/NavBar";
 import MyScroll from "@/components/common/scroll/MyScroll";
 
 import CartList from "./childComps/CartList";
+import CartBottom from './childComps/CartBottom'
 
 export default {
   name: "Cart",
   components: {
     NavBar,
     MyScroll,
-    CartList
+    CartList,
+    CartBottom
   },
   computed: {
     ...mapGetters(["cartLength", "cartList"])
@@ -34,6 +37,8 @@ export default {
 
 <style lang='scss' scoped>
 #cart {
+  height: calc(100vh - 49px);
+  position: relative;
   .cart-nav {
     background-color: #ff8e98;
     color: #ffffff;
@@ -41,7 +46,7 @@ export default {
   .content {
     position: absolute;
     top: 44px;
-    bottom: 49px;
+    bottom: 40px;
     left: 0;
     right: 0;
   }

@@ -34,7 +34,6 @@ export default {
   methods:{
       checkClick(){
           this.listItem.checked  = !this.listItem.checked
-          console.log(this.$store.state)
       }
   }
 };
