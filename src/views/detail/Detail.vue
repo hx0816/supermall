@@ -131,16 +131,7 @@ export default {
       product.price = this.goods.realPrice;
       product.iid = this.$route.params.iid;
       this.$store.dispatch("addCart", product).then(res=>{
-<<<<<<< HEAD
         this.$toast.show(res)
-=======
-        this.isShow = true
-        this.message = res
-        setTimeout(()=>{
-          this.isShow  = false
-          this.message = ''
-        },1500)
->>>>>>> 850c0a9fb43015e30eb07c9f8f4c25fedf4974e0
       })
     }
   },
